@@ -1,10 +1,20 @@
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
 import psycopg2
+import os
+
+load_dotenv()
 
 def connectDB():
     try:
-        conn = psycopg2.connect("dbname='mydb' user='postgres' host='localhost' password='123' port='8080'")
+        conn = psycopg2.connect(
+            dbname = os.getenv("DB_NAME"),
+            user = os.getenv("DB_USER"), 
+            host = os.getenv("DB_HOST"),
+            password = os.getenv("DB_PASSWORD"),
+            port = os.getenv("DB_PORT")
+        )
         return conn
     except Exception as e:
         return None
